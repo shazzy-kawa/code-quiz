@@ -4,8 +4,8 @@ var currentQuestion = 0;
 var counter;
 var timer;
 
-var startButton = document.querySelector('#start');
-var submitButton = document.querySelector('#submit');
+var startBtn = document.querySelector('#start');
+var submitBtn = document.querySelector('#submit');
 var startScreenElement = document.querySelector('#start-screen');
 var questionsContainer = document.querySelector('#questions');
 var questionsTitle = document.querySelector('#question-title');
@@ -45,7 +45,7 @@ function nextQuestion() {
         endGame();
     }
 }
-startButton.addEventListener('click', function() {
+startBtn.addEventListener('click', function() {
     startScreenElement.setAttribute('class', 'hide');
     questionsContainer.setAttribute('class', 'visible');
 
@@ -60,7 +60,7 @@ startButton.addEventListener('click', function() {
             endGame();
             clearInterval(counter);
         }
-    }, 1000);
+    }, 500);
 });
 choicesContainer.addEventListener('click', function(event){
     var selectedAnswer = event.target.textContent;
@@ -68,7 +68,7 @@ choicesContainer.addEventListener('click', function(event){
         score += 1;
         nextQuestion();
     }else{
-        counter -= 10;
+        counter -= 5;
         nextQuestion();
     }
 })
@@ -83,7 +83,7 @@ function saveHighscore(initial) {
         localStorage.setItem('highscores', JSON.stringify(sortedData));
     }
 }
-submitButton.addEventListener('click', function(){
+submitBtn.addEventListener('click', function(){
     var initial = initialInput.value.trim();
     saveHighscore(initial);
     location.replace('highscores.html');
