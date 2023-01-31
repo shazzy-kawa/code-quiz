@@ -1,9 +1,9 @@
-//update variables and check functionality
+//score set to zero
 var score = 0;
 var currentQuestion = 0;
 var counter;
 var timer;
-
+//variables defined at the start of the javascript file
 var startBtn = document.querySelector('#start');
 var submitBtn = document.querySelector('#submit');
 var startScreenElement = document.querySelector('#start-screen');
@@ -16,15 +16,15 @@ var timerContainerText = document.getElementById('time');
 var finalScoreContainer = document.getElementById('final-score');
 var initialInput = document.getElementById('initials');
 var highscoresContainer = document.getElementById('highscores');
-
+//function to begin populating the page with question and possible answers
 function populateQuestion(question) {
     var currentQuestion = question.title;
     var currentChoices = question.choices;
 
     choicesContainer.innerHTML = '';
     questionsTitle.textContent = currentQuestion;
-    var choicesList = document.createElement('ul');
-    for (let i = 0; i < currentChoices.length; i++) {
+    var choicesList = document.createElement('ul');       //ul element created for possible answers
+    for (let i = 0; i < currentChoices.length; i++) {     //for loop created to add possible answers and and appended to     
         var choice = document.createElement('button');
         choice.textContent = currentChoices[i];
         choicesList.appendChild(choice);
@@ -52,7 +52,7 @@ startBtn.addEventListener('click', function() {
     currentQuestion = 0;
     populateQuestion(questions[currentQuestion]);
 
-    counter = 60;
+    counter = 60;                                 //timer starting at 60 seconds counting down by 1000ms
     timer = setInterval(function() {
         counter--;
         timerContainerText.textContent = counter;
@@ -60,9 +60,9 @@ startBtn.addEventListener('click', function() {
             endGame();
             clearInterval(counter);
         }
-    }, 500);
+    }, 1000);
 });
-choicesContainer.addEventListener('click', function(event){
+choicesContainer.addEventListener('click', function(event){            //click to select an answer, if answer if correct add one point if incorrect, timer goes down by 5 seconds
     var selectedAnswer = event.target.textContent;
     if(selectedAnswer === questions[currentQuestion].answer){
         score += 1;
@@ -72,7 +72,7 @@ choicesContainer.addEventListener('click', function(event){
         nextQuestion();
     }
 })
-function saveHighscore(initial) {
+function saveHighscore(initial) {                                 // scores are stored in local storage 
     var recordScore = [{Initial:initial,Score:score}];
     if(localStorage.getItem('highscores') === null){
         localStorage.setItem('highscores', JSON.stringify(recordScore)); 
@@ -88,3 +88,10 @@ submitBtn.addEventListener('click', function(){
     saveHighscore(initial);
     location.replace('highscores.html');
 })
+
+function endGame() {
+    questionsContainer.setAttribute('class', 'hide');
+    endScreenContainer.setAttribute('class', 'visible');
+    finalScoreContainer.textContent = score;
+    clearInterval(timer);
+}
