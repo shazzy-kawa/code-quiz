@@ -1,3 +1,4 @@
+//update variables and check functionality
 var score = 0;
 var currentQuestion = 0;
 var counter;
